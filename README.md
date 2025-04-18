@@ -56,7 +56,7 @@ Powered by [🧬 Phi-3 Mini (by Microsoft)](https://huggingface.co/microsoft/Phi
 🛠️ Setup Instructions
 
   - Clone the Repo
-      git clone https://github.com/your-username/mediveda.git
+      git clone https://github.com/gitTrooper/MediVeda-RAG-.git
       cd mediveda
   
   - Install Requirements
