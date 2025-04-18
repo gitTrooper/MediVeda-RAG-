@@ -1,6 +1,10 @@
 <div align="center">
 
-# 🩺 MediVeda – Your Personalized Medical AI Assistant 🤖💊
+# 🩺 MediVeda – AI-Powered Medical Assistant 💬📄
+
+A smart healthcare assistant that answers medical questions using trusted documents and even analyzes your uploaded medical reports. Built with 💖 on **LangChain, HuggingFace, and Gradio**, MediVeda brings the power of modern AI to your fingertips.
+
+![MediVeda Banner](https://imgur.com/your-banner-image.png) <!-- Optional -->
 
 </div>
 
@@ -8,73 +12,124 @@
 
 ## 🌟 Overview
 
-**MediVeda** is an AI-powered medical chatbot designed to assist users with symptom analysis, medical queries, and health-related insights using real-time document retrieval and cutting-edge large language models. 🧠📄
+**MediVeda** is an AI-first medical solution with two core features:
 
-Powered by [🧬 Phi-3 Mini (by Microsoft)](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct), [FAISS](https://github.com/facebookresearch/faiss) vector database, and [LangChain](https://www.langchain.com/), MediVeda is hosted seamlessly on [🤗 Hugging Face Spaces](https://huggingface.co/spaces).
+1. 🧠 **Medical QA Chatbot** – Ask any health-related question, and get AI-verified answers from a medical knowledge base.
+2. 📄 **Medical Report Analyzer** – Upload your medical PDF reports, and ask patient-specific questions with contextual answers.
 
----
-
-## ✨ Features
-
-| 💡 Feature                      | 🔍 Description |
-|-------------------------------|----------------|
-| 📁 PDF-based Medical Context   | Ingests and indexes medical documents using FAISS for fast retrieval. |
-| 🧠 LLM-backed QA System        | Uses Phi-3 Mini LLM for intelligent, context-aware medical responses. |
-| 🧾 Custom Prompt Engineering   | Ensures concise and accurate medical summaries with a 300-word limit. |
-| 💬 Gradio UI                   | Clean and interactive chat interface for users to ask health-related questions. |
-| 🔐 Secure LLM Access           | Retrieves Hugging Face token securely using environment variables. |
-| ♻️ Duplicate-Free Responses    | Filters out repeated sentences to maintain clarity in answers. |
-| 🚀 Hugging Face Deployment     | Deployed on Hugging Face Spaces with public sharing enabled. |
+Hosted live on **Hugging Face Spaces** and powered by **Phi-3 Mini** and **LangChain’s RetrievalQA**, MediVeda is built to enhance healthcare understanding for everyone.
 
 ---
 
-## 🧠 Tech Stack
+## 🧠 App 1: Medical QA Chatbot (RAG-based)
 
-- **Frontend/UI**: [Gradio](https://www.gradio.app/)
-- **LLM**: [`microsoft/Phi-3-mini-4k-instruct`](https://huggingface.co/microsoft/Phi-3-mini-4k-instruct)
-- **Embeddings**: `rishi002/all-MiniLM-L6-v2` (via HuggingFaceEmbeddings)
-- **Retrieval**: [FAISS Vector Store](https://github.com/facebookresearch/faiss)
-- **Frameworks**: [LangChain](https://www.langchain.com/), [Hugging Face](https://huggingface.co/)
+A fast, document-aware medical chatbot that uses:
+
+| 🔧 Component            | 🧾 Description |
+|------------------------|----------------|
+| `app.py`               | Backend code for chatbot |
+| `FAISS`                | Vector store to store medical document embeddings |
+| `LangChain`            | RetrievalQA chain with custom prompt |
+| `HuggingFaceEndpoint`  | Runs the `microsoft/Phi-3-mini-4k-instruct` model |
+| `Gradio`               | Chat interface |
+
+### ✨ Features
+- 🔍 Search over pre-loaded medical PDFs
+- 🧠 Uses `MiniLM` embeddings for semantic understanding
+- ✂️ Removes repeated info from answers
+- 💬 Clean and simple Gradio chat interface
+- 🌐 Hosted live on Hugging Face Spaces
 
 ---
 
-⚠️ Make sure you add your medical PDFs to the dataFolder/ directory before running the app.
+## 📄 App 2: Medical Report Analyzer (PDF Upload)
 
-🚀 How It Works
- - PDF Ingestion: Loads and chunks PDFs into small text pieces.
-  
- - Embedding Generation: Each chunk is converted to vector embeddings using MiniLM.
-  
- - FAISS Vector Store: Stores the chunks in a searchable FAISS database.
-  
- - Prompt Engineering: Custom prompt used to generate concise, relevant answers.
-  
- - LLM Response: Query is answered using context retrieved from documents and Phi-3 Mini.
-  
- - UI Display: Result is shown via Gradio, with source metadata included.
+This app lets users upload **their own medical PDFs** (like blood reports), extracts the content, and answers questions by merging patient data + external knowledge.
 
-🛠️ Setup Instructions
+| ⚙️ Component              | 🔍 Description |
+|--------------------------|----------------|
+| `MedicalReportAnalyzer`  | Core class for report handling and QA |
+| `PyMuPDF` + `PyPDF`      | Text extraction (multi-layer fallback) |
+| `LangChain`              | QA pipeline with `patient_data` + `context` |
+| `FAISS`                  | Medical corpus index |
+| `HuggingFacePipeline`    | Direct Phi-3 or Flan-T5 generation |
+| `Gradio Blocks` UI       | Upload + question form |
 
-  - Clone the Repo
-      git clone https://github.com/gitTrooper/MediVeda-RAG-.git
-      cd mediveda
-  
-  - Install Requirements
-      pip install -r requirements.txt
-    
-  - Set Hugging Face Token
-      export HF_TOKEN=your_huggingface_token
-    
-  - Run the App
-      python app.py
+### ✨ Features
+- 📁 Upload PDF reports
+- 🔎 Extracts and splits report text
+- 🧬 Merges personal data with medical document context
+- ❌ Robust fallback methods if PDF parsing fails
+- 🤖 Answers personalized health questions
 
-## 📂 Project Structure
+---
+
+## 🗂️ Project Structure
+
+├── app.py # Launch script (Gradio) 
+├── embeddings.py # (If using for PDF chunking in chatbot) 
+├── dataFolder/ # PDF documents for chatbot context 
+├── ReportAnalysis/ # Folder with medical report analyzer app 
+│── app.py # Report analyzer with upload and QA 
+├── vectorstore/ # FAISS vector index storage 
+├── requirements.txt # All dependencies
+
+
+💬 Example Use Cases
+🧠 Chatbot:
+"What are the symptoms of asthma?"
+"Can I take paracetamol with ibuprofen?"
+
+📄 Report Analyzer:
+Upload: Blood Report
+Ask: "Is my HbA1c too high?"
+Ask: "What does low hemoglobin mean in this report?"
+
+📦 Requirements
+
+gradio
+langchain
+transformers
+sentence-transformers
+PyMuPDF
+PyPDF2
+faiss-cpu
+torch
+
+🔮 Roadmap
+
+ - ✅ Dual app integration (Chatbot + Report Analyzer)
+
+ - 🔐 GPT-4 Health verification (future)
+
+ - 📱 Android app with integrated Hugging Face APIs
+
+ - 📊 Diet planning and exercise suggestions
+
+ - 📷 OCR support for scanned image reports
+
+
+
+---
+
+## 💻 Local Setup
 
 ```bash
-.
-├── app.py                 # Main application logic
-├── dataFolder/           # Folder to place all medical PDFs
-├── embeddings.py         # Functions for loading PDFs and creating chunks (assumed external)
-└── /tmp/vectorstore/     # Temporary storage for FAISS vector store
+# Clone the repo
+git clone https://github.com/gitTrooper/MediVeda-RAG-.git
+cd MediVeda-RAG-
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set your Hugging Face API token
+export HF_TOKEN=your_token_here
+
+# Run the chatbot
+python app.py
+
+# OR run the report analyzer (inside ReportAnalysis)
+cd ReportAnalysis
+python app.py
 
 
